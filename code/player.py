@@ -1,11 +1,15 @@
 import pygame
+import os
+from support import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self , pos):
         super().__init__()
         
-        self.image = pygame.Surface((32 , 64))
-        self.image.fill('red')
+        self.import_character_assets()
+        self.frame_index = 0
+        self.animation_speed = 0.15
+        self.image = self.animations['walk'][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
         
         # Player Movement
@@ -13,6 +17,37 @@ class Player(pygame.sprite.Sprite):
         self.speed = 6
         self.gravity = 0.6
         self.jump_speed = -12
+        
+    def import_character_assets(self):
+        character_path = os.path.join('..', 'graphics', 'character')
+        self.animations = {
+            # "idle": [] ,
+            "walk": [] ,
+            "jump": [] 
+            # "attack": [] ,
+            # "shield_up": [] ,
+            # "shield_idle": [] ,
+            # "drinking": [] ,
+            # "fall": [] ,
+            # "hurt": [] ,
+            # "dying" : [] , 
+            # "win": []
+        }
+        
+        for animation in self.animations.keys():
+            full_path = os.path.join(character_path, animation)
+            self.animations[animation] = import_folder(full_path)
+            
+    def animate(self):
+        animation = self.animations['walk']
+        
+        # Loop over frame index
+        self.frame_index += self.animation_speed
+        
+        if self.frame_index >= len(animation):
+            self.frame_index = 0
+            
+        self.image = animation[int(self.frame_index)]
         
     def get_input(self):
         keys = pygame.key.get_pressed()
@@ -40,3 +75,4 @@ class Player(pygame.sprite.Sprite):
             
     def update(self):
         self.get_input()
+        self.animate()
