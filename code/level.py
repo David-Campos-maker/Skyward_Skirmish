@@ -57,18 +57,18 @@ class Level:
                     
                 if cell == 'P':
                     player_sprite = Player((x , y) , self.display_surface , self.create_jump_particle)
-                    self.player.add(player_sprite)
+                    self.player.add(player_sprite)                    
        
     def scroll_x(self):
         player = self.player.sprite
         player_x = player.rect.centerx   
         direction_x = player.direction.x    
         
-        if player_x < screen_width / 3 and direction_x < 0:
+        if player_x < screen_width / 4 and direction_x < 0:
             self.world_shift = 6
             player.speed = 0 
             
-        elif player_x > screen_width - (screen_width / 3) and direction_x > 0:
+        elif player_x > screen_width - (screen_width / 4) and direction_x > 0:
             self.world_shift = -6
             player.speed = 0  
             
@@ -102,7 +102,7 @@ class Level:
                 
     def vertical_movement_collision(self):
         player = self.player.sprite
-        player.applay_gravity()
+        player.apply_gravity()
         
         new_rect = player.rect.copy()
         new_rect.y += player.direction.y
@@ -122,7 +122,7 @@ class Level:
         if player.on_ground and player.direction.y < 0 or player.direction.y > 1:
             player.on_ground = False
             
-        if player.on_ceiling and player.direction.y > 0:
+        if player.on_ceiling and player.direction.y > 0.1:
             player.on_ceiling = False
                    
     def run(self):
