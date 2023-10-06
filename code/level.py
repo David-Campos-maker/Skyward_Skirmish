@@ -157,4 +157,5 @@ class Level:
         self.player.draw(self.display_surface)
         
         # Enemy
+        self.enemies.update(self.world_shift)
         self.enemies.draw(self.display_surface)

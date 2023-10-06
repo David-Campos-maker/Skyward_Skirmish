@@ -44,8 +44,8 @@ class Player(pygame.sprite.Sprite):
             "idle": [] ,
             "walk": [] ,
             "jump": [] ,
-            "fall": [] 
-            # "attack": [] ,
+            "fall": [] ,
+            "attack": [] 
             # "shield_up": [] ,
             # "shield_idle": [] ,
             # "drinking": [] ,
@@ -118,7 +118,7 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         mouse_buttons = pygame.mouse.get_pressed()
 
-        if mouse_buttons[0] and not self.is_attacking:  # Botão esquerdo do mouse
+        if mouse_buttons[0] and (not self.is_attacking) and self.on_ground:  # Botão esquerdo do mouse
             self.is_attacking = True
             self.attack()  # Chama o método attack quando o jogador atacar
 
@@ -153,6 +153,9 @@ class Player(pygame.sprite.Sprite):
             
             else:
                 self.status = 'idle'
+                
+        if self.is_attacking:
+            self.status = 'attack'
     
     def apply_gravity(self):
         self.direction.y += self.gravity
@@ -162,7 +165,7 @@ class Player(pygame.sprite.Sprite):
         self.direction.y = self.jump_speed
         
     def draw_attack_hitbox(self):
-        attack_width = 32
+        attack_width = 34
         attack_height = 64
         if self.facing_right:
             attack_rect = pygame.Rect(self.rect.right, self.rect.centery - attack_height // 2, attack_width, attack_height)

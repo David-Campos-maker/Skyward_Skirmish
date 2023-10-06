@@ -5,7 +5,7 @@ class Enemy(pygame.sprite.Sprite):
         super().__init__()
 
         # Defina as dimensões do inimigo
-        self.width = 64
+        self.width = 32
         self.height = 64
 
         # Crie uma imagem vermelha para o sprite do inimigo
@@ -14,3 +14,6 @@ class Enemy(pygame.sprite.Sprite):
 
         # Defina o retângulo de colisão do inimigo
         self.rect = self.image.get_rect(topleft=pos)
+        
+    def update(self , x_shift):
+        self.rect.x += x_shift
