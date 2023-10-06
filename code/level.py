@@ -2,6 +2,7 @@ import pygame
 from settings import tile_size , screen_width
 from tiles import Tile
 from player import Player
+from enemy import Enemy
 from particle import ParticleEffect
 
 class Level:
@@ -45,6 +46,7 @@ class Level:
     def setup_level(self , layout): 
         self.tiles = pygame.sprite.Group()
         self.player = pygame.sprite.GroupSingle()
+        self.enemies = pygame.sprite.Group()
         
         for row_index , row in enumerate(layout):
             for col_index , cell in enumerate(row):
@@ -56,8 +58,12 @@ class Level:
                     self.tiles.add(tile)
                     
                 if cell == 'P':
-                    player_sprite = Player((x , y) , self.display_surface , self.create_jump_particle)
-                    self.player.add(player_sprite)                    
+                    player_sprite = Player((x , y) , self.display_surface , self.create_jump_particle , self.attack_check_function)
+                    self.player.add(player_sprite) 
+                    
+                if cell == 'E':
+                    enemy_sprite = Enemy((x , y))     
+                    self.enemies.add(enemy_sprite)              
        
     def scroll_x(self):
         player = self.player.sprite
@@ -124,6 +130,13 @@ class Level:
             
         if player.on_ceiling and player.direction.y > 0.1:
             player.on_ceiling = False
+            
+    def attack_check_function(self, attack_hitbox):
+        # Verifique colisões entre a hitbox de ataque do jogador e os inimigos
+        for enemy in self.enemies:
+            if attack_hitbox.colliderect(enemy.rect):
+                # O ataque do jogador acertou o inimigo
+                print("Hit")  # Exemplo de ação quando um inimigo é atingido
                    
     def run(self):
         # Dust particle
@@ -142,3 +155,6 @@ class Level:
         self.vertical_movement_collision()
         self.create_landing_dust()
         self.player.draw(self.display_surface)
+        
+        # Enemy
+        self.enemies.draw(self.display_surface)

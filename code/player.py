@@ -3,12 +3,17 @@ import os
 from support import import_folder
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self , pos , surface , create_jump_particle):
+    def __init__(self , pos , surface , create_jump_particle , attack_check_function):
         super().__init__()
+        
+        # Attack
+        self.attack_hitbox_color = (0, 0, 255)  # Azul
+        self.is_attacking = False
+        self.attack_check_function = attack_check_function  # Configurar a função de verificação de ataque
         
         self.import_character_assets()
         self.frame_index = 0
-        self.animation_speed = 0.14
+        self.animation_speed = 0.15
         self.image = self.animations['idle'][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
         
@@ -111,20 +116,26 @@ class Player(pygame.sprite.Sprite):
             
     def get_input(self):
         keys = pygame.key.get_pressed()
-        
+        mouse_buttons = pygame.mouse.get_pressed()
+
+        if mouse_buttons[0] and not self.is_attacking:  # Botão esquerdo do mouse
+            self.is_attacking = True
+            self.attack()  # Chama o método attack quando o jogador atacar
+
+        if not mouse_buttons[0] and self.is_attacking:
+            self.is_attacking = False
+
         if keys[pygame.K_d]:
             self.direction.x = 1
             self.facing_right = True
             self.rect.x += self.speed
-        
         elif keys[pygame.K_a]:
             self.direction.x = -1
             self.facing_right = False
             self.rect.x -= self.speed
-        
         else:
             self.direction.x = 0
-            
+
         if keys[pygame.K_SPACE] and self.on_ground:
             self.jump()
             self.create_jump_particle(self.rect.midbottom)
@@ -149,6 +160,32 @@ class Player(pygame.sprite.Sprite):
         
     def jump(self):
         self.direction.y = self.jump_speed
+        
+    def draw_attack_hitbox(self):
+        attack_width = 32
+        attack_height = 64
+        if self.facing_right:
+            attack_rect = pygame.Rect(self.rect.right, self.rect.centery - attack_height // 2, attack_width, attack_height)
+        else:
+            attack_rect = pygame.Rect(self.rect.left - attack_width, self.rect.centery - attack_height // 2, attack_width, attack_height)
+
+        pygame.draw.rect(self.display_surface, self.attack_hitbox_color, attack_rect, 2)
+        
+    def attack(self):
+        if self.is_attacking:
+            attack_width = 34
+            attack_height = 64
+            if self.facing_right:
+                attack_hitbox = pygame.Rect(self.rect.right, self.rect.centery - attack_height // 2, attack_width, attack_height)
+            else:
+                attack_hitbox = pygame.Rect(self.rect.left - attack_width, self.rect.centery - attack_height // 2, attack_width, attack_height)
+
+            # Desenhe a hitbox de ataque para fins de teste e depuração
+            self.draw_attack_hitbox()
+
+            # Chame a função de verificação de ataque do nível (Level)
+            if self.attack_check_function:
+                self.attack_check_function(attack_hitbox)
             
     def update(self):
         self.get_input()
