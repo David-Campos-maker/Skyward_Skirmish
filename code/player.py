@@ -6,11 +6,6 @@ class Player(pygame.sprite.Sprite):
     def __init__(self , pos , surface , create_jump_particle , attack_check_function):
         super().__init__()
         
-        # Attack
-        self.attack_hitbox_color = (0, 0, 255)  # Azul
-        self.is_attacking = False
-        self.attack_check_function = attack_check_function  # Configurar a função de verificação de ataque
-        
         self.import_character_assets()
         self.frame_index = 0
         self.animation_speed = 0.15
@@ -29,6 +24,15 @@ class Player(pygame.sprite.Sprite):
         self.speed = 6
         self.gravity = 0.6
         self.jump_speed = -16
+        
+        # Attack
+        self.attack_hitbox_color = (0, 0, 255)  # Azul
+        self.is_attacking = False
+        self.attack_check_function = attack_check_function  # Configurar a função de verificação de ataque
+        self.attack_timer = 0
+        self.attack_animation_timer = 0
+        self.attack_animation_duration = len(self.animations['attack']) / self.animation_speed  # Calcule a duração da animação de ataque
+        self.animation_ended = True
         
         # Player status
         self.status = 'idle'
@@ -97,6 +101,16 @@ class Player(pygame.sprite.Sprite):
         elif self.on_ceiling:
             self.rect = self.image.get_rect(midtop = self.rect.midtop)
             
+        if self.is_attacking:
+            # Aqui você pode adicionar o código para executar a animação de ataque
+            # Quando a animação de ataque estiver concluída, defina self.is_attacking como False
+            
+            self.animation_speed = 0.19
+            
+            if self.attack_animation_timer <= 0:
+                self.is_attacking = False
+                self.animation_speed = 0.15
+            
     def run_dust_animation(self):
         if self.status == 'walk' and self.on_ground:
             self.dust_frame_index += self.dust_animation_speed
@@ -116,14 +130,11 @@ class Player(pygame.sprite.Sprite):
             
     def get_input(self):
         keys = pygame.key.get_pressed()
-        mouse_buttons = pygame.mouse.get_pressed()
 
-        if mouse_buttons[0] and (not self.is_attacking) and self.on_ground:  # Botão esquerdo do mouse
+        if keys[pygame.K_RSHIFT] and (not self.is_attacking) and self.on_ground and self.attack_animation_timer <= 0:
             self.is_attacking = True
+            self.attack_animation_timer = self.attack_animation_duration
             self.attack()  # Chama o método attack quando o jogador atacar
-
-        if not mouse_buttons[0] and self.is_attacking:
-            self.is_attacking = False
 
         if keys[pygame.K_d]:
             self.direction.x = 1
@@ -195,3 +206,7 @@ class Player(pygame.sprite.Sprite):
         self.get_status()
         self.animate()
         self.run_dust_animation()
+        
+       # Adicione isso para atualizar o temporizador de ataque e verificar se o ataque terminou
+        if self.attack_animation_timer > 0:
+            self.attack_animation_timer -= 1
