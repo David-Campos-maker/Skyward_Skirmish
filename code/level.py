@@ -58,12 +58,8 @@ class Level:
                     self.tiles.add(tile)
                     
                 if cell == 'P':
-                    player_sprite = Player((x , y) , self.display_surface , self.create_jump_particle , self.attack_check_function)
-                    self.player.add(player_sprite) 
-                    
-                if cell == 'E':
-                    enemy_sprite = Enemy((x , y))     
-                    self.enemies.add(enemy_sprite)              
+                    player_sprite = Player((x , y) , self.display_surface , self.create_jump_particle)
+                    self.player.add(player_sprite)             
        
     def scroll_x(self):
         player = self.player.sprite
@@ -130,13 +126,6 @@ class Level:
             
         if player.on_ceiling and player.direction.y > 0.1:
             player.on_ceiling = False
-            
-    def attack_check_function(self, attack_hitbox):
-        # Verifique colisões entre a hitbox de ataque do jogador e os inimigos
-        for enemy in self.enemies:
-            if attack_hitbox.colliderect(enemy.rect):
-                # O ataque do jogador acertou o inimigo
-                print("Hit")  # Exemplo de ação quando um inimigo é atingido
                    
     def run(self):
         # Dust particle
