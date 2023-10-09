@@ -3,7 +3,7 @@ import os
 from support import import_folder
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self , pos , surface , create_jump_particle):
+    def __init__(self , pos , surface , create_jump_particle , attack_check_function):
         super().__init__()
         
         self.import_character_assets()
@@ -27,8 +27,10 @@ class Player(pygame.sprite.Sprite):
         
         #Attack
         self.is_attacking = False
-        self.attack_cooldown = 50
+        self.attack_cooldown = 30
         self.attack_cooldown_timer = 0
+        self.attack_hitbox_color = (0, 255, 0)
+        self.attack_check_function = attack_check_function
         
         # Player status
         self.status = 'idle'
@@ -107,6 +109,32 @@ class Player(pygame.sprite.Sprite):
                 flipped_dust_particle = pygame.transform.flip(dust_particle , True , False)
                 self.display_surface.blit(flipped_dust_particle , pos)
             
+    def draw_attack_hitbox(self):
+        attack_width = 20
+        attack_height = 64
+        if self.facing_right:
+            attack_rect = pygame.Rect(self.rect.right, self.rect.centery - attack_height // 2, attack_width, attack_height)
+        else:
+            attack_rect = pygame.Rect(self.rect.left - attack_width, self.rect.centery - attack_height // 2, attack_width, attack_height)
+
+        pygame.draw.rect(self.display_surface, self.attack_hitbox_color, attack_rect, 2)
+        
+    def attack(self):
+        if self.is_attacking:
+            attack_width = 20
+            attack_height = 64
+            if self.facing_right:
+                attack_hitbox = pygame.Rect(self.rect.right, self.rect.centery - attack_height // 2, attack_width, attack_height)
+            else:
+                attack_hitbox = pygame.Rect(self.rect.left - attack_width, self.rect.centery - attack_height // 2, attack_width, attack_height)
+
+            # Desenhe a hitbox de ataque para fins de teste e depuração
+            self.draw_attack_hitbox()
+
+            # Chame a função de verificação de ataque do nível (Level)
+            if self.attack_check_function:
+                self.attack_check_function(attack_hitbox)
+            
     def get_input(self):
         keys = pygame.key.get_pressed()
 
@@ -130,6 +158,8 @@ class Player(pygame.sprite.Sprite):
                 # Inicie o ataque
                 self.is_attacking = True
                 self.frame_index = 1
+                # Crie a hitbox de ataque
+                self.attack()
                 # Defina o tempo de recarga após o ataque
                 self.attack_cooldown_timer = self.attack_cooldown
     

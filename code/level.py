@@ -58,7 +58,7 @@ class Level:
                     self.tiles.add(tile)
                     
                 if cell == 'P':
-                    player_sprite = Player((x , y) , self.display_surface , self.create_jump_particle)
+                    player_sprite = Player((x , y) , self.display_surface , self.create_jump_particle , self.attack_check_function)
                     self.player.add(player_sprite)      
                     
                 if cell == 'E':
@@ -130,6 +130,11 @@ class Level:
             
         if player.on_ceiling and player.direction.y > 0.1:
             player.on_ceiling = False
+                   
+    def attack_check_function(self, attack_hitbox):
+        for enemy in self.enemies:
+            if attack_hitbox.colliderect(enemy):
+                print('Hit')
                    
     def run(self):
         # Dust particle
