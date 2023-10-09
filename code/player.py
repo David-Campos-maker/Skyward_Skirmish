@@ -25,6 +25,11 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 0.6
         self.jump_speed = -16
         
+        #Attack
+        self.is_attacking = False
+        self.attack_cooldown = 50
+        self.attack_cooldown_timer = 0
+        
         # Player status
         self.status = 'idle'
         self.facing_right = True
@@ -39,7 +44,8 @@ class Player(pygame.sprite.Sprite):
             "idle": [] ,
             "walk": [] ,
             "jump": [] ,
-            "fall": [] 
+            "fall": [] ,
+            "attack": []
         }
         
         for animation in self.animations.keys():
@@ -56,6 +62,7 @@ class Player(pygame.sprite.Sprite):
         
         if self.frame_index >= len(animation):
             self.frame_index = 0
+            self.is_attacking = False
             
         image = animation[int(self.frame_index)]
         if self.facing_right:
@@ -63,7 +70,7 @@ class Player(pygame.sprite.Sprite):
         else:
             flipped_image = pygame.transform.flip(image , True , False)
             self.image = flipped_image
-            
+                  
         # Set the rect
         if self.on_ground and self.on_right:
             self.rect = self.image.get_rect(bottomright = self.rect.bottomright)
@@ -117,6 +124,14 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE] and self.on_ground:
             self.jump()
             self.create_jump_particle(self.rect.midbottom)
+            
+        if keys[pygame.K_RSHIFT] and self.on_ground:
+            if not self.is_attacking and self.attack_cooldown_timer <= 0:
+                # Inicie o ataque
+                self.is_attacking = True
+                self.frame_index = 1
+                # Defina o tempo de recarga após o ataque
+                self.attack_cooldown_timer = self.attack_cooldown
     
     def get_status(self):
         if self.direction.y < 0:
@@ -131,6 +146,18 @@ class Player(pygame.sprite.Sprite):
             
             else:
                 self.status = 'idle'
+                
+        if self.is_attacking:
+            self.status = 'attack'
+            self.animation_speed = 0.25
+        else:
+            self.animation_speed = 0.15
+            
+    def update_attack_cooldown(self):
+        if self.attack_cooldown_timer > 0:
+            self.attack_cooldown_timer -= 1
+        elif self.attack_cooldown_timer < 0:
+            self.attack_cooldown_timer = 0
     
     def apply_gravity(self):
         self.direction.y += self.gravity
@@ -144,3 +171,4 @@ class Player(pygame.sprite.Sprite):
         self.get_status()
         self.animate()
         self.run_dust_animation()
+        self.update_attack_cooldown()

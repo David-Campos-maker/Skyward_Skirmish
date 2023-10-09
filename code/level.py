@@ -59,7 +59,11 @@ class Level:
                     
                 if cell == 'P':
                     player_sprite = Player((x , y) , self.display_surface , self.create_jump_particle)
-                    self.player.add(player_sprite)             
+                    self.player.add(player_sprite)      
+                    
+                if cell == 'E':
+                    enemy_sprite = Enemy((x , y))
+                    self.enemies.add(enemy_sprite)
        
     def scroll_x(self):
         player = self.player.sprite
