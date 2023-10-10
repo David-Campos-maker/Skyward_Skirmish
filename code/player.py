@@ -128,10 +128,8 @@ class Player(pygame.sprite.Sprite):
             else:
                 attack_hitbox = pygame.Rect(self.rect.left - attack_width, self.rect.centery - attack_height // 2, attack_width, attack_height)
 
-            # Desenhe a hitbox de ataque para fins de teste e depuração
             self.draw_attack_hitbox()
 
-            # Chame a função de verificação de ataque do nível (Level)
             if self.attack_check_function:
                 self.attack_check_function(attack_hitbox)
             
@@ -155,12 +153,9 @@ class Player(pygame.sprite.Sprite):
             
         if keys[pygame.K_RSHIFT] and self.on_ground:
             if not self.is_attacking and self.attack_cooldown_timer <= 0:
-                # Inicie o ataque
                 self.is_attacking = True
                 self.frame_index = 1
-                # Crie a hitbox de ataque
                 self.attack()
-                # Defina o tempo de recarga após o ataque
                 self.attack_cooldown_timer = self.attack_cooldown
     
     def get_status(self):
