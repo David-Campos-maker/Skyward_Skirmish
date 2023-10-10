@@ -174,7 +174,7 @@ class Player(pygame.sprite.Sprite):
                 
         if self.is_attacking:
             self.status = 'attack'
-            self.animation_speed = 0.25
+            self.animation_speed = 0.20
         else:
             self.animation_speed = 0.15
             
