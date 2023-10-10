@@ -151,7 +151,7 @@ class Player(pygame.sprite.Sprite):
             self.jump()
             self.create_jump_particle(self.rect.midbottom)
             
-        if keys[pygame.K_RSHIFT] and self.on_ground:
+        if keys[pygame.K_RSHIFT] and self.on_ground and self.direction.x == 0:
             if not self.is_attacking and self.attack_cooldown_timer <= 0:
                 self.is_attacking = True
                 self.frame_index = 1
