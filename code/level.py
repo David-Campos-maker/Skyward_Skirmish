@@ -5,6 +5,7 @@ from tiles import Tile , StaticTile , AnimatedTile , Trees
 from enemy import Enemy
 from player import Player
 from particle import ParticleEffect
+from background import Background
 
 class Level:
     def __init__(self , level_data , surface):
@@ -51,6 +52,9 @@ class Level:
         # Constraints
         constraint_layout = import_csv_layout(level_data['constraints'])
         self.constraint_sprites = self.create_tile_group(constraint_layout , 'constraints')
+        
+        # Background
+        self.background = Background('../graphics/decorations/background/Background.png' , 0 , 0)
         
     def create_tile_group(self , layout , type):
         sprite_group = pygame.sprite.Group()
@@ -215,6 +219,9 @@ class Level:
         
     def run(self):
         # Run the entire game / level
+        #Level Background
+        self.background.draw(self.display_surface)
+        
         # Backgroud Trees
         self.bg_trees_sprites.update(self.world_shift)
         self.bg_trees_sprites.draw(self.display_surface)
