@@ -1,19 +1,25 @@
 import pygame
+from tiles import AnimatedTile
+from random import randint
 
-class Enemy(pygame.sprite.Sprite):
-    def __init__(self, pos):
-        super().__init__()
-
-        # Defina as dimensões do inimigo
-        self.width = 32
-        self.height = 64
-
-        # Crie uma imagem vermelha para o sprite do inimigo
-        self.image = pygame.Surface((self.width, self.height))
-        self.image.fill((255, 0, 0))  # Vermelho
-
-        # Defina o retângulo de colisão do inimigo
-        self.rect = self.image.get_rect(topleft=pos)
+class Enemy(AnimatedTile):
+    def __init__(self , size , x , y):
+        super().__init__(size , x , y , path = '../graphics/enemy/run')
         
-    def update(self , x_shift):
-        self.rect.x += x_shift
+        self.speed = randint(3 , 5)
+        
+    def move(self):
+        self.rect.x += self.speed 
+        
+    def reverse_image(self):
+        if self.speed > 0:
+            self.image = pygame.transform.flip(self.image , True , False)
+            
+    def reverse(self):
+        self.speed *= -1
+        
+    def update(self , shift):
+        self.rect.x += shift
+        self.animate()
+        self.move()
+        self.reverse_image()
