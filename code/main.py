@@ -1,14 +1,14 @@
 import pygame , sys
 from settings import *
 from level import Level
-from game_data import level_1
+from game_data import level_2
 
 # Pygame setup
 pygame.init()
 
 screen = pygame.display.set_mode((screen_width , screen_height))
 clock = pygame.time.Clock()
-level = Level(level_1 , screen)
+level = Level(level_2 , screen)
 
 while True:
     for event in pygame.event.get():
