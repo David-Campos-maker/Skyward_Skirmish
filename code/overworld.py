@@ -30,13 +30,12 @@ class Icon(pygame.sprite.Sprite):
         super().__init__()
         
         self.pos = pos
-        self.image = pygame.Surface((20 , 20))
-        self.image.fill('blue')
+        self.image = pygame.image.load('../graphics//overworld/Icon.png')
         
         self.rect = self.image.get_rect(center = pos)
     
     def update(self):
-        self.rect.center = self.pos
+        self.rect.center = self.pos 
 
 class Overworld:
     def __init__(self , start_level , max_level , surface , create_level):
@@ -55,7 +54,7 @@ class Overworld:
         # Sprites
         self.setup_nodes()
         self.setup_icon()
-        self.background = Background('../graphics/overworld/Overworld-bg.jpeg' , 0 , 0)
+        self.background = Background('../graphics/overworld/Map.png' , 0 , 0)
         
     def setup_nodes(self):
         self.nodes = pygame.sprite.Group()

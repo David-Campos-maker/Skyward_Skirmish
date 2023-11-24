@@ -122,31 +122,17 @@ class Player(pygame.sprite.Sprite):
                 flipped_dust_particle = pygame.transform.flip(dust_particle , True , False)
                 self.display_surface.blit(flipped_dust_particle , pos)
             
-    def draw_attack_hitbox(self):
-        attack_width = 64
-        attack_height = 64
-        offset = 30  # Ajuste este valor para mover a hitbox de ataque para dentro do sprite do jogador
-
-        if self.facing_right:
-            attack_rect = pygame.Rect(self.rect.right - offset, self.rect.centery - attack_height // 2, attack_width, attack_height)
-        else:
-            attack_rect = pygame.Rect(self.rect.left - attack_width + offset, self.rect.centery - attack_height // 2, attack_width, attack_height)
-
-        pygame.draw.rect(self.display_surface, (255, 0, 0), attack_rect)  # A cor vermelha é representada por (255, 0, 0)
-        
     def attack(self):
         if self.is_attacking:
             attack_width = 64
             attack_height = 64
-            offset = 30  # Ajuste este valor para mover a hitbox de ataque para dentro do sprite do jogador
+            offset = 20  
 
             if self.facing_right:
                 attack_hitbox = pygame.Rect(self.rect.right - offset, self.rect.centery - attack_height // 2, attack_width, attack_height)
             else:
                 attack_hitbox = pygame.Rect(self.rect.left - attack_width + offset, self.rect.centery - attack_height // 2, attack_width, attack_height)
-
-            self.draw_attack_hitbox()
-
+                
             if self.attack_check_function:
                 self.attack_check_function(attack_hitbox)
             

@@ -221,7 +221,7 @@ class Level:
                     self.player.add(sprite)
                 
                 if val == '1':
-                    idle_surface = pygame.image.load('../graphics/character/idle/1.png')
+                    idle_surface = pygame.image.load('../graphics/character/Icon.png')
                     sprite = StaticTile(tile_size , x , y , idle_surface)
                     self.goal.add(sprite)
     
