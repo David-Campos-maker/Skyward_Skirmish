@@ -7,7 +7,7 @@ class Enemy(AnimatedTile):
         super().__init__(size , x , y , path = '../graphics/enemy/run')
         
         self.speed = randint(3 , 4)
-        self.rect.y -= 38
+        self.rect.y -= 30
 
     def move(self):
         self.rect.x += self.speed
@@ -22,6 +22,13 @@ class Enemy(AnimatedTile):
     def update(self , shift):
         self.rect.x += shift
         self.animate()
-        self.image = pygame.transform.scale(self.image, (round(self.image.get_width() * 1.5), round(self.image.get_height() * 1.5)))
+
+        new_image = pygame.Surface((80, 80), pygame.SRCALPHA) 
+
+        scaled_image = pygame.transform.scale(self.image, (self.image.get_width() + 21, self.image.get_height() + 21))
+
+        new_image.blit(scaled_image, ((80 - scaled_image.get_width()) // 2, (80 - scaled_image.get_height()) // 2))
+
+        self.image = new_image
         self.move()
         self.reverse_image()

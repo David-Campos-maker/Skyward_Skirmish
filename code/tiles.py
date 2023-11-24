@@ -23,7 +23,7 @@ class Trees(pygame.sprite.Sprite):
         
         offset_y = y - offset
         
-        self.image = pygame.image.load(image)
+        self.image = pygame.image.load(image).convert_alpha()
         self.rect = self.image.get_rect(topleft = (x , offset_y))
         
     def update(self , shift):

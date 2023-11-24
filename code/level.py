@@ -9,7 +9,7 @@ from background import Background
 from game_data import levels
 
 class Level:
-    def __init__(self , current_level , surface , create_overworld):
+    def __init__(self , current_level , surface , create_overworld , change_health):
         
         # General Setup
         self.display_surface = surface
@@ -26,11 +26,14 @@ class Level:
         player_layout = import_csv_layout(level_data['player'])
         self.player = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.GroupSingle()
-        self.player_setup(player_layout)
+        self.player_setup(player_layout , change_health)
         
         # Dust Particles
         self.dust_sprite = pygame.sprite.GroupSingle()
         self.player_on_ground = False
+        
+        # Explosion Particles
+        self.explosion_sprites = pygame.sprite.Group()
         
         #Terrain Setup
         terrain_layout = import_csv_layout(level_data['terrain'])
@@ -119,7 +122,10 @@ class Level:
     def attack_check_function(self, attack_hitbox):
         for enemy in self.enemy_sprites:
             if attack_hitbox.colliderect(enemy):
-                print('Hit')
+                explosion_sprites = ParticleEffect(enemy.rect.center , 'explosion')
+                self.explosion_sprites.add(explosion_sprites)
+                
+                enemy.kill()
     
     def horizontal_movement_collision(self):
         player = self.player.sprite
@@ -204,14 +210,14 @@ class Level:
             self.world_shift = 0
             player.speed = 6 
     
-    def player_setup(self , layout):
+    def player_setup(self , layout , change_health):
         for row_index , row in enumerate(layout):
             for col_index , val in enumerate(row):
                 x = col_index * tile_size
                 y = row_index * tile_size
                 
                 if val == '0':
-                    sprite = Player((x , y) , self.display_surface , self.create_jump_particle , self.attack_check_function)
+                    sprite = Player((x , y) , self.display_surface , self.create_jump_particle , self.attack_check_function , change_health)
                     self.player.add(sprite)
                 
                 if val == '1':
@@ -231,6 +237,20 @@ class Level:
     def check_win(self):
         if pygame.sprite.spritecollide(self.player.sprite , self.goal , False):
             self.create_overworld(self.current_level , self.new_max_level)
+        
+    def check_enemy_collisions(self):
+        enemy_collisions = pygame.sprite.spritecollide(self.player.sprite , self.enemy_sprites , False)
+        
+        if enemy_collisions:
+            for enemy in enemy_collisions:
+                enemy_left = enemy.rect.left
+                enemy_right = enemy.rect.right
+
+                player_left = self.player.sprite.rect.left
+                player_right = self.player.sprite.rect.right
+
+                if player_right > enemy_left and player_left < enemy_right:
+                    self.player.sprite.get_damage()
         
     def run(self):
         # Run the entire game / level
@@ -262,6 +282,9 @@ class Level:
         self.constraint_sprites.update(self.world_shift)
         self.enemy_collision_reverse()
         self.enemy_sprites.draw(self.display_surface)
+        self.check_enemy_collisions()
+        self.explosion_sprites.update(self.world_shift)
+        self.explosion_sprites.draw(self.display_surface)
         
         # Dust Particles
         self.dust_sprite.update(self.world_shift)
