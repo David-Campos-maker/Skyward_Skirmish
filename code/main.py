@@ -53,6 +53,9 @@ pygame.init()
 
 screen = pygame.display.set_mode((screen_width , screen_height))
 clock = pygame.time.Clock()
+
+pygame.display.set_caption('Skyward Skirmish')
+
 game = Game()
 
 while True:
