@@ -55,28 +55,28 @@ level_3 = {
 }
 
 level_4 = {
-    'terrain': '../levels/1/Leve_2_terrain.csv' ,
-    'bg_trees': '../levels/1/Leve_2_bg_trees.csv' ,
-    'butterflies': '../levels/1/Leve_2_butterflies.csv' ,
-    'grass': '../levels/1/Leve_2_grass.csv' , 
-    'flowers': '../levels/1/Leve_2_flowers.csv' , 
-    'constraints': '../levels/1/Leve_2_constraints.csv' , 
-    'enemies': '../levels/1/Leve_2_enemy.csv' , 
-    'player': '../levels/1/Leve_2_player.csv' ,
+    'terrain': '../levels/4/Level_5_terrain.csv' ,
+    'bg_trees': '../levels/4/Level_5_bg_trees.csv' ,
+    'butterflies': '../levels/4/Level_5_butterflies.csv' ,
+    'grass': '../levels/4/Level_5_grass.csv' , 
+    'flowers': '../levels/4/Level_5_flowers.csv' , 
+    'constraints': '../levels/4/Level_5_constraints.csv' , 
+    'enemies': '../levels/4/Level_5_enemy.csv' , 
+    'player': '../levels/4/Level_5_player.csv' ,
     'node_pos': (880 , 210) ,
     'unlock': 5 ,
     'node_graphics': '../graphics/overworld/Level-5.png'
 }
 
 level_5 = {
-    'terrain': '../levels/1/Leve_2_terrain.csv' ,
-    'bg_trees': '../levels/1/Leve_2_bg_trees.csv' ,
-    'butterflies': '../levels/1/Leve_2_butterflies.csv' ,
-    'grass': '../levels/1/Leve_2_grass.csv' , 
-    'flowers': '../levels/1/Leve_2_flowers.csv' , 
-    'constraints': '../levels/1/Leve_2_constraints.csv' , 
-    'enemies': '../levels/1/Leve_2_enemy.csv' , 
-    'player': '../levels/1/Leve_2_player.csv' ,
+    'terrain': '../levels/5/Level_6_terrain.csv' ,
+    'bg_trees': '../levels/5/Level_6_bg_trees.csv' ,
+    'butterflies': '../levels/5/Level_6_butterflies.csv' ,
+    'grass': '../levels/5/Level_6_grass.csv' , 
+    'flowers': '../levels/5/Level_6_flowers.csv' , 
+    'constraints': '../levels/5/Level_6_constraints.csv' , 
+    'enemies': '../levels/5/Level_6_enemy.csv' , 
+    'player': '../levels/5/Level_6_player.csv' ,
     'node_pos': (1050 , 400) ,
     'unlock': 5 ,
     'node_graphics': '../graphics/overworld/Level-6.png'
