@@ -44,7 +44,7 @@ class Player(pygame.sprite.Sprite):
         # Health Management
         self.change_health = change_health
         self.invincible = False
-        self.invincibility_duration = 400
+        self.invincibility_duration = 500
         self.hurt_time = 0
         
     def import_character_assets(self):
