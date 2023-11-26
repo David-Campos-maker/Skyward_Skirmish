@@ -249,7 +249,7 @@ class Level:
                 player_left = self.player.sprite.rect.left
                 player_right = self.player.sprite.rect.right
 
-                if player_right > enemy_left and player_left < enemy_right:
+                if player_right > enemy_left or player_left < enemy_right:
                     self.player.sprite.get_damage()
         
     def run(self):
