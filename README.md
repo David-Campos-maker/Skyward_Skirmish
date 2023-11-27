@@ -2,9 +2,9 @@
 
 ## Synopsis
 
-Get ready for intense action in "Skyward Skirmish," a challenging pygame platformer set in a world of chaos and confrontation. Our adventurer, passing through a mercantile city, receives an urgent alert from the local residents. A horde of harpies is rapidly approaching the village, threatening the safety of its inhabitants.
+Embark on an epic adventure in the pixelated world of Skyward Skirmish. She takes on the role of Lyra, a fearless warrior known for her skill with a sword and compassion for those in need. When a horde of harpies threatens the peaceful farms and harvests of local farmers, Lyra rises to meet the challenge.
 
-Driven by the instinct to protect, our heroine embarks on a journey to intercept and defeat the harpies before they reach the village. In a fast-paced action style, players will face platform challenges and intense combat.
+In this action platformer, you'll guide Lyra through dangerous terrain, face wild creatures, and overcome natural obstacles in her quest to protect the farms. Wield your sword with dexterity, dodge attacks and counterattack with precise blows to defeat the horde of harpies.
 
 ## Game Features
 
@@ -15,6 +15,7 @@ Driven by the instinct to protect, our heroine embarks on a journey to intercept
 ## Screenshots
 
 ![image](https://github.com/David-Campos-maker/Pygame-Project/assets/70824817/ba60bbba-e43a-4671-a235-a94040093e00)
+
 ![image](https://github.com/David-Campos-maker/Pygame-Project/assets/70824817/5d2acf06-3a7d-40e6-a719-78869387c049)
 
 ## Credits
