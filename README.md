@@ -20,6 +20,9 @@ In this action platformer, you'll guide Lyra through dangerous terrain, face wil
 
 ## Credits
 
-- **Art:** [JumpButton (https://jumpbutton.itch.io/) , Mattz Art (https://xzany.itch.io/) , Lifty (https://www.gamedevmarket.net/member/lifty)]
+**Art:** 
+- Lyra - JumpButton (https://jumpbutton.itch.io/)
+- Harpies - Mattz Art (https://xzany.itch.io/) , Tileset
+- Lifty (https://www.gamedevmarket.net/member/lifty)
 
 Get ready for sky-high battles! "Skyward Skirmish" awaits fearless hearts to face the harpy threat and protect the village. Are you ready for the challenge?
