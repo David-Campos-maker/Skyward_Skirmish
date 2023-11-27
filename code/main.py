@@ -20,6 +20,9 @@ class Game:
         self.ui = UI(screen)
         
     def create_level(self , current_level):
+        if hasattr(self, 'level'):
+            del self.level
+            
         self.level = Level(current_level , screen , self.create_overworld , self.change_health)
         self.status = 'level'
         
