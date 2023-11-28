@@ -48,7 +48,3 @@ class AnimatedTile(Tile):
     def update(self , shift):
         self.animate()
         self.rect.x += shift
-        
-# class Trees(AnimatedTile):
-#     def __init__(self . size , x , y):
-#         super().__init__()
